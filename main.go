@@ -184,7 +184,104 @@ func main() {
 		fmt.Printf("(%d-%d) ", index, val)
 	}
 	fmt.Println()
+
+	// map
+	squares := map[int]int{
+		1: 1,
+		2: 4,
+		3: 9,
+		4: 16,
+	}
+	fmt.Println(squares[3])
+	// if key not present, zero value of value type is returned
+	fmt.Println(squares[99])
+	fmt.Println(squares)
+	// a way to check if exists, coz zero value cannot be relied upon
+	value, exists := squares[100]
+	fmt.Println(value, exists)
+	value, exists = squares[4]
+	fmt.Println(value, exists)
+
+	delete(squares, 4)
+	// deleting keys
+	fmt.Println(squares)
+
+	// structures, gives power to create your own custom data types!
+	type Person struct {
+		name string
+		age  int
+	}
+
+	p1 := Person{name: "Akash", age: 50}
+	fmt.Printf("%v\n", p1)
+
+	// anonumous structs
+	employee := struct {
+		position string
+		salary   int
+	}{
+		position: "Senior Engineer",
+		salary:   50000,
+	}
+	fmt.Println(employee)
+
+	// structs cannot be redefined in same scope
+
+	// function with names inide functions not allowed
+	// func modifyPerson(p Person) {
+	// }
+
+	modifyPerson := func(p Person) {
+		p.name = "Billu"
+		p.age = 55
+		fmt.Println("Here its modified", p)
+	}
+
+	modifyPersonUsingRef := func(p *Person) {
+		p.name = "Sikka"
+		p.age = 60
+		fmt.Println("Here its modified", p)
+	}
+
+	modifyPerson(p1)
+
+	// hence proved by default a copy of struct is passed
+	fmt.Println("Here its not modified", p1)
+
+	modifyPersonUsingRef(&p1)
+	fmt.Println("Now its modified", p1)
+
+	fmt.Printf("Value of p1 is %v and address of p1 is %p\n", p1, &p1)
+
+	addressOfP1 := &p1
+
+	// straight from c language
+	*addressOfP1 = Person{
+		name: "Howard",
+		age:  70,
+	}
+
+	fmt.Println(p1)
+	fmt.Println(*addressOfP1)
+
+	var lang Language = Language{
+		name:            "English",
+		countryOfOrigin: "England",
+	}
+	lang.langPrinter("The country of origin of")
 }
+
+type Language struct {
+	name            string
+	countryOfOrigin string
+}
+
+// attaching function to struct, OOPs features
+func (l *Language) langPrinter(msg string) {
+	fmt.Printf("%s %s is %s.\n", msg, l.name, l.countryOfOrigin)
+}
+
+// two functions with same name i.e. langPrinter with diff arg list wont work, so no polymorphism
 
 // this fn is not exported, you cannot omit arg types and return type
 func add(a int, b int) int {
